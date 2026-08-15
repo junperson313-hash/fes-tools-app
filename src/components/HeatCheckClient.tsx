@@ -112,29 +112,36 @@ function calcRiskLevel(a: HeatAnswers): { label: string; color: string; advice: 
 
 export default function HeatCheckClient() {
   const [answers, setAnswers] = useState<Partial<HeatAnswers>>({});
-  const isComplete = QUESTIONS.every((q) => answers[q.key] !== undefined);
+  const [submitted, setSubmitted] = useState(false);
+  const answeredCount = QUESTIONS.filter((q) => answers[q.key] !== undefined).length;
 
   const result = useMemo(() => {
-    if (!isComplete) return null;
-    const a = answers as HeatAnswers;
+    if (!submitted) return null;
+    const a = { ...answers } as unknown as Record<string, string>;
+    for (const q of QUESTIONS) {
+      if (a[q.key] === undefined) {
+        a[q.key] = q.options[0].value;
+      }
+    }
+    const typed = a as unknown as HeatAnswers;
     return {
-      risk: calcRiskLevel(a),
-      items: RECOMMENDATIONS.filter((r) => r.show(a))
+      risk: calcRiskLevel(typed),
+      items: RECOMMENDATIONS.filter((r) => r.show(typed))
         .map((r) => getProductById(r.productId))
         .filter((p): p is NonNullable<typeof p> => Boolean(p)),
     };
-  }, [answers, isComplete]);
+  }, [answers, submitted]);
 
   function setAnswer(key: keyof HeatAnswers, value: string) {
     setAnswers((prev) => ({ ...prev, [key]: value }));
   }
 
-  if (!isComplete || !result) {
+  if (!submitted || !result) {
     return (
       <div className="mx-auto max-w-xl px-4 pb-16 pt-8">
         <h1 className="text-xl font-bold text-zinc-900">暑さ対策診断</h1>
         <p className="mt-1 text-sm text-zinc-500">
-          5つの質問で熱中症リスクをチェックし、必要な暑さ対策グッズを提案します。
+          5つの質問で熱中症リスクをチェックし、必要な暑さ対策グッズを提案します。答えなくてもそのまま結果を見られます。
         </p>
 
         <div className="mt-6 flex flex-col gap-6">
@@ -163,6 +170,16 @@ export default function HeatCheckClient() {
             </div>
           ))}
         </div>
+
+        <button
+          type="button"
+          onClick={() => setSubmitted(true)}
+          className="mt-8 w-full rounded-full bg-orange-500 py-3.5 text-sm font-bold text-white shadow-sm active:scale-[0.98]"
+        >
+          {answeredCount === QUESTIONS.length
+            ? "診断結果を見る"
+            : `この内容で診断する(${answeredCount}/${QUESTIONS.length}問回答)`}
+        </button>
       </div>
     );
   }
@@ -173,7 +190,10 @@ export default function HeatCheckClient() {
         <h1 className="text-xl font-bold text-zinc-900">診断結果</h1>
         <button
           type="button"
-          onClick={() => setAnswers({})}
+          onClick={() => {
+            setAnswers({});
+            setSubmitted(false);
+          }}
           className="text-xs font-medium text-zinc-500 underline underline-offset-2"
         >
           質問をやり直す

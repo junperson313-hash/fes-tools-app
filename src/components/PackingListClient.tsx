@@ -62,14 +62,20 @@ const QUESTIONS: {
 export default function PackingListClient() {
   const [answers, setAnswers] = useState<Partial<PackingAnswers>>({});
   const [statuses, setStatuses] = useState<Record<string, Status>>({});
+  const [submitted, setSubmitted] = useState(false);
 
-  const isComplete = QUESTIONS.every((q) => answers[q.key] !== undefined);
+  const answeredCount = QUESTIONS.filter((q) => answers[q.key] !== undefined).length;
 
   const items = useMemo(() => {
-    if (!isComplete) return [];
-    const a = answers as PackingAnswers;
-    return PACKING_ITEMS.filter((item) => item.show(a));
-  }, [answers, isComplete]);
+    if (!submitted) return [];
+    const a = { ...answers } as unknown as Record<string, string>;
+    for (const q of QUESTIONS) {
+      if (a[q.key] === undefined || a[q.key] === "unknown") {
+        a[q.key] = q.options[0].value;
+      }
+    }
+    return PACKING_ITEMS.filter((item) => item.show(a as unknown as PackingAnswers));
+  }, [answers, submitted]);
 
   const grouped = useMemo(() => {
     const map = new Map<PackingCategory, typeof items>();
@@ -89,12 +95,12 @@ export default function PackingListClient() {
     setStatuses((prev) => ({ ...prev, [id]: prev[id] === value ? "unset" : value }));
   }
 
-  if (!isComplete) {
+  if (!submitted) {
     return (
       <div className="mx-auto max-w-xl px-4 pb-16 pt-8">
         <h1 className="text-xl font-bold text-zinc-900">夏フェス持ち物チェッカー</h1>
         <p className="mt-1 text-sm text-zinc-500">
-          5つの質問に答えると、あなたに必要な持ち物リストが作成されます。
+          5つの質問に答えると、あなたに必要な持ち物リストが作成されます。答えなくてもそのまま結果を見られます。
         </p>
 
         <div className="mt-6 flex flex-col gap-6">
@@ -119,10 +125,31 @@ export default function PackingListClient() {
                     </button>
                   );
                 })}
+                <button
+                  type="button"
+                  onClick={() => setAnswer(q.key, "unknown")}
+                  className={`rounded-full border border-dashed px-4 py-2.5 text-sm font-medium transition-colors active:scale-[0.97] ${
+                    (answers[q.key] as string | undefined) === "unknown"
+                      ? "border-zinc-400 bg-zinc-200 text-zinc-600"
+                      : "border-zinc-300 bg-white text-zinc-400"
+                  }`}
+                >
+                  わからない
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        <button
+          type="button"
+          onClick={() => setSubmitted(true)}
+          className="mt-8 w-full rounded-full bg-amber-500 py-3.5 text-sm font-bold text-white shadow-sm active:scale-[0.98]"
+        >
+          {answeredCount === QUESTIONS.length
+            ? "持ち物リストを見る"
+            : `この内容で結果を見る(${answeredCount}/${QUESTIONS.length}問回答)`}
+        </button>
       </div>
     );
   }
@@ -136,6 +163,7 @@ export default function PackingListClient() {
           onClick={() => {
             setAnswers({});
             setStatuses({});
+            setSubmitted(false);
           }}
           className="text-xs font-medium text-zinc-500 underline underline-offset-2"
         >
