@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import ItemsClient from "@/components/ItemsClient";
 
 export const metadata: Metadata = {
-  title: "フェス用品一覧",
+  title: "フェス用品一覧 | カテゴリ・シーン別に探せる",
   description:
-    "雨対策・暑さ対策・スマホ充電・バッグ・宿泊キャンプなど、夏フェスに役立つグッズをカテゴリ別にまとめて紹介します。",
+    "雨対策・暑さ対策・モバイルバッテリー・バッグ・宿泊遠征など、夏フェスに役立つグッズをカテゴリ別・シーン別にまとめて紹介します。",
+  alternates: { canonical: "/items" },
 };
 
 export default function Page() {
-  return <ItemsClient />;
+  return (
+    <Suspense>
+      <ItemsClient />
+    </Suspense>
+  );
 }

@@ -1,18 +1,35 @@
 export type ProductCategory =
-  | "rain"
   | "heat"
-  | "phone"
+  | "rain"
+  | "power"
   | "bag"
-  | "convenience"
-  | "camp";
+  | "towel"
+  | "hat"
+  | "drink"
+  | "leisure"
+  | "camp"
+  | "misc";
 
 export const PRODUCT_CATEGORY_LABELS: Record<ProductCategory, string> = {
-  rain: "雨対策",
   heat: "暑さ対策",
-  phone: "スマホ・充電",
+  rain: "雨対策",
+  power: "モバイルバッテリー・充電",
   bag: "バッグ",
-  convenience: "便利グッズ",
-  camp: "宿泊・キャンプ",
+  towel: "タオル",
+  hat: "帽子",
+  drink: "飲み物関連",
+  leisure: "レジャー用品",
+  camp: "宿泊・遠征",
+  misc: "その他便利グッズ",
+};
+
+export type Scenario = "beginner" | "peak-summer" | "rainy" | "overnight";
+
+export const SCENARIO_LABELS: Record<Scenario, string> = {
+  beginner: "初心者向け",
+  "peak-summer": "真夏フェス向け",
+  rainy: "雨予報の日",
+  overnight: "泊まりフェス向け",
 };
 
 export interface Product {
@@ -20,8 +37,6 @@ export interface Product {
   name: string;
   category: ProductCategory;
   description: string;
-  amazonUrl: string | null;
-  rakutenUrl: string | null;
 }
 
 export type PackingCategory =

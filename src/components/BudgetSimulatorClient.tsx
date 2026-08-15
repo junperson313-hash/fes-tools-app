@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import ResultCTA from "@/components/ResultCTA";
 
 type FieldKey = "ticket" | "transport" | "stay" | "food" | "goods" | "other";
 
@@ -128,6 +129,13 @@ export default function BudgetSimulatorClient() {
                 </li>
               ))}
           </ul>
+        </div>
+      )}
+
+      {total > 0 && (
+        <div className="mt-8 flex flex-col gap-2">
+          <ResultCTA href="/tools/festival-packing-list" label="🎒 持ち物リストも作る" />
+          <ResultCTA href="/items" label="フェス用品一覧を見る" />
         </div>
       )}
     </div>

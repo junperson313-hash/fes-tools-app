@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { getProductById } from "@/data/products";
 import ProductLinks from "@/components/ProductLinks";
+import ResultCTA from "@/components/ResultCTA";
+import { useLocalStorageState } from "@/lib/useLocalStorageState";
 
 interface HeatAnswers {
   temp: "under30" | "30to35" | "over35";
@@ -111,8 +113,11 @@ function calcRiskLevel(a: HeatAnswers): { label: string; color: string; advice: 
 }
 
 export default function HeatCheckClient() {
-  const [answers, setAnswers] = useState<Partial<HeatAnswers>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [answers, setAnswers] = useLocalStorageState<Partial<HeatAnswers>>(
+    "fes-heat-answers",
+    {}
+  );
+  const [submitted, setSubmitted] = useLocalStorageState<boolean>("fes-heat-submitted", false);
   const answeredCount = QUESTIONS.filter((q) => answers[q.key] !== undefined).length;
 
   const result = useMemo(() => {
@@ -218,6 +223,11 @@ export default function HeatCheckClient() {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-2">
+        <ResultCTA href="/items?category=heat" label="☀️ 暑さ対策グッズをもっと見る" />
+        <ResultCTA href="/tools/festival-packing-list" label="🎒 持ち物リストも作る" />
       </div>
     </div>
   );

@@ -1,8 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { getProductById } from "@/data/products";
 import ProductLinks from "@/components/ProductLinks";
+import ResultCTA from "@/components/ResultCTA";
+import { useLocalStorageState } from "@/lib/useLocalStorageState";
 
 interface RainAnswers {
   intensity: "light" | "heavy" | "long";
@@ -46,8 +48,11 @@ const RECOMMENDATIONS: {
 ];
 
 export default function RainCheckClient() {
-  const [answers, setAnswers] = useState<Partial<RainAnswers>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [answers, setAnswers] = useLocalStorageState<Partial<RainAnswers>>(
+    "fes-rain-answers",
+    {}
+  );
+  const [submitted, setSubmitted] = useLocalStorageState<boolean>("fes-rain-submitted", false);
   const answeredCount = QUESTIONS.filter((q) => answers[q.key] !== undefined).length;
 
   const items = useMemo(() => {
@@ -145,6 +150,11 @@ export default function RainCheckClient() {
             </li>
           ))}
         </ul>
+      </div>
+
+      <div className="mt-8 flex flex-col gap-2">
+        <ResultCTA href="/items?category=rain" label="☔ 雨対策グッズをもっと見る" />
+        <ResultCTA href="/tools/festival-packing-list" label="🎒 持ち物リストも作る" />
       </div>
     </div>
   );

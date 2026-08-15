@@ -1,13 +1,4 @@
-import type { Product } from "./types";
-
-// 商品マスタ。amazonUrl / rakutenUrl はアフィリエイトタグ確定後に差し替える。
-// 現状は商品名の検索結果URL(プレースホルダー)。null の場合はボタン非表示。
-function amazonSearch(query: string) {
-  return `https://www.amazon.co.jp/s?k=${encodeURIComponent(query)}`;
-}
-function rakutenSearch(query: string) {
-  return `https://search.rakuten.co.jp/search/mall/${encodeURIComponent(query)}/`;
-}
+import type { Product, Scenario } from "./types";
 
 function product(
   id: string,
@@ -15,62 +6,70 @@ function product(
   category: Product["category"],
   description: string
 ): Product {
-  return {
-    id,
-    name,
-    category,
-    description,
-    amazonUrl: amazonSearch(name),
-    rakutenUrl: rakutenSearch(name),
-  };
+  return { id, name, category, description };
 }
 
 export const PRODUCTS: Product[] = [
+  // 暑さ対策
+  product("cooling-spray", "冷却スプレー", "heat", "服の上からシュッとひと吹きで体感温度を下げる。"),
+  product("neck-fan", "ハンディ・首かけ扇風機", "heat", "屋外の炎天下でも風を確保できる。"),
+  product("sunscreen", "日焼け止め", "heat", "汗に強いウォータープルーフタイプがおすすめ。"),
+  product("salt-candy", "塩分タブレット・飴", "heat", "熱中症対策に塩分・ミネラル補給。"),
+  product("cooling-inner", "接触冷感インナー", "heat", "着るだけで涼しい素材のインナーウェア。"),
+  product("portable-parasol", "折りたたみ日傘・パラソル", "heat", "待機列や休憩時の日陰づくりに。"),
+
   // 雨対策
   product("rain-poncho", "レインポンチョ", "rain", "両手が空いて動きやすい。フェス定番の雨対策。"),
   product("waterproof-bag-cover", "防水バッグカバー", "rain", "リュックごとすっぽり覆って荷物を雨から守る。"),
   product("waterproof-phone-case", "スマホ防水ケース", "rain", "首から下げられるタイプなら雨でも操作しやすい。"),
   product("waterproof-shoes", "防水シューズ・長靴", "rain", "ぬかるみ対策に。軽量タイプが歩きやすい。"),
-  product("quick-dry-towel", "速乾タオル", "rain", "濡れた体や荷物を拭くのに。かさばらない。"),
   product("dry-bag", "防水スタッフバッグ", "rain", "着替えや電子機器をまとめて濡れから守る。"),
+  product("extra-socks", "予備の靴下", "rain", "濡れた足元をリセットできる。雨の日の必需品。"),
 
-  // 暑さ対策
-  product("cooling-towel", "冷却タオル", "heat", "水に濡らして首に巻くとひんやり長持ち。"),
-  product("neck-fan", "ハンディ・首かけ扇風機", "heat", "屋外の炎天下でも風を確保できる。"),
-  product("sunscreen", "日焼け止め", "heat", "汗に強いウォータープルーフタイプがおすすめ。"),
-  product("cap-hat", "帽子・キャップ", "heat", "直射日光から頭を守る基本アイテム。"),
-  product("cooling-spray", "冷却スプレー", "heat", "服の上からシュッとひと吹きで体感温度を下げる。"),
-  product("salt-candy", "塩分タブレット・飴", "heat", "熱中症対策に塩分・ミネラル補給。"),
-  product("sports-drink", "経口補水パウダー", "heat", "水に溶かすだけで手軽に塩分補給できる。"),
-  product("cooling-inner", "接触冷感インナー", "heat", "着るだけで涼しい素材のインナーウェア。"),
-  product("portable-parasol", "折りたたみ日傘・パラソル", "heat", "待機列や休憩時の日陰づくりに。"),
+  // モバイルバッテリー・充電
+  product("mobile-battery", "モバイルバッテリー", "power", "1日中スマホを使うフェスの必需品。"),
+  product("charge-cable", "充電ケーブル(予備)", "power", "断線・忘れ物対策に予備を1本。"),
+  product("solar-charger", "ソーラーチャージャー", "power", "長時間の野外フェス・キャンプ泊で活躍。"),
+  product("power-strip", "電源タップ(車中泊・宿泊用)", "power", "複数人でコンセントを分け合うのに便利。"),
 
-  // スマホ・電源
-  product("mobile-battery", "モバイルバッテリー", "phone", "1日中スマホを使うフェスの必需品。"),
-  product("charge-cable", "充電ケーブル(予備)", "phone", "断線・忘れ物対策に予備を1本。"),
-  product("neck-pouch", "スマホ用ネックポーチ", "phone", "両手を空けたまま貴重品を管理できる。"),
-  product("solar-charger", "ソーラーチャージャー", "phone", "長時間の野外フェス・キャンプ泊で活躍。"),
-
-  // 衛生用品
-  product("wet-tissue", "ウェットティッシュ", "convenience", "手や汗を拭くのに何かと便利。"),
-  product("hand-sanitizer", "携帯用消毒液", "convenience", "屋外トイレ利用時などの衛生対策に。"),
-  product("deodorant-sheet", "デオドラントシート", "convenience", "汗の匂いや汗じみが気になるときに。"),
-  product("tissue-pack", "ポケットティッシュ", "convenience", "トイレットペーパー切れの野外トイレ対策にも。"),
-
-  // あると便利
+  // バッグ
   product("waist-pouch", "ウエストポーチ", "bag", "貴重品を身につけて身軽に動ける。"),
-  product("folding-chair", "コンパクト折りたたみ椅子", "convenience", "待機時間や休憩時にあると疲れが違う。"),
-  product("earplugs", "耳栓(ライブ用)", "convenience", "大音量から耳を守り、翌日の耳鳴りを防ぐ。"),
-  product("rain-boots-light", "軽量レインシューズ", "rain", "本降りが予想される日の足元対策。"),
-  product("led-light", "LEDライト・光るグッズ", "convenience", "夜間の視認性確保やペンライト代わりに。"),
-  product("power-strip", "電源タップ(車中泊・宿泊用)", "camp", "複数人でコンセントを分け合うのに便利。"),
+  product("neck-pouch", "スマホ用ネックポーチ", "bag", "両手を空けたまま貴重品を管理できる。"),
+  product("rucksack", "防水リュック", "bag", "荷物をまとめて背負える、フェス向けの定番バッグ。"),
 
-  // 宿泊用品
+  // タオル
+  product("cooling-towel", "冷却タオル", "towel", "水に濡らして首に巻くとひんやり長持ち。"),
+  product("quick-dry-towel", "速乾タオル", "towel", "汗や雨で濡れた体・荷物を拭くのに。かさばらない。"),
+  product("sports-towel", "スポーツタオル", "towel", "汗拭き・日除けなど何かと使い回せる1枚。"),
+
+  // 帽子
+  product("cap-hat", "帽子・キャップ", "hat", "直射日光から頭を守る基本アイテム。"),
+  product("bucket-hat", "つば広ハット", "hat", "首元まで日差しをカバーできる暑さ対策帽子。"),
+
+  // 飲み物関連
+  product("sports-drink", "経口補水パウダー", "drink", "水に溶かすだけで手軽に塩分補給できる。"),
+  product("water-bottle", "保冷水筒・ボトル", "drink", "冷たい飲み物をキープして熱中症対策に。"),
+  product("collapsible-cup", "折りたたみカップ", "drink", "給水スポットでの水分補給にかさばらず便利。"),
+
+  // レジャー用品
+  product("folding-chair", "コンパクト折りたたみ椅子", "leisure", "待機時間や休憩時にあると疲れが違う。"),
+  product("earplugs", "耳栓(ライブ用)", "leisure", "大音量から耳を守り、翌日の耳鳴りを防ぐ。"),
+  product("led-light", "LEDライト・光るグッズ", "leisure", "夜間の視認性確保やペンライト代わりに。"),
+  product("rain-boots-light", "軽量レインシューズ", "leisure", "本降りが予想される日の足元対策。"),
+
+  // 宿泊・遠征
   product("sleeping-bag", "寝袋・シュラフ", "camp", "車中泊やキャンプ泊での防寒に。"),
   product("air-mat", "エアマット・キャンプマット", "camp", "地面の硬さや冷気を防いで睡眠の質を上げる。"),
   product("tent-light", "テント用ランタン", "camp", "夜間のテント内・周辺の明かり確保に。"),
   product("travel-pillow", "携帯枕・ネックピロー", "camp", "移動中や仮眠時の首への負担を軽減。"),
   product("cooler-box", "小型クーラーボックス", "camp", "飲み物や食材の保冷に。連泊フェスで活躍。"),
+
+  // その他便利グッズ
+  product("wet-tissue", "ウェットティッシュ", "misc", "手や汗を拭くのに何かと便利。"),
+  product("hand-sanitizer", "携帯用消毒液", "misc", "屋外トイレ利用時などの衛生対策に。"),
+  product("deodorant-sheet", "デオドラントシート", "misc", "汗の匂いや汗じみが気になるときに。"),
+  product("tissue-pack", "ポケットティッシュ", "misc", "トイレットペーパー切れの野外トイレ対策にも。"),
+  product("trash-bag", "携帯ゴミ袋", "misc", "ゴミを持ち帰るためのマナーアイテム。"),
 ];
 
 export function getProductById(id: string): Product | undefined {
@@ -79,4 +78,52 @@ export function getProductById(id: string): Product | undefined {
 
 export function getProductsByCategory(category: Product["category"]): Product[] {
   return PRODUCTS.filter((p) => p.category === category);
+}
+
+// シーン別のおすすめ商品リスト。用品一覧ページのクイックフィルタで使用する。
+export const SCENARIO_PRODUCT_IDS: Record<Scenario, string[]> = {
+  beginner: [
+    "mobile-battery",
+    "charge-cable",
+    "waist-pouch",
+    "cap-hat",
+    "sunscreen",
+    "wet-tissue",
+    "hand-sanitizer",
+    "rain-poncho",
+  ],
+  "peak-summer": [
+    "cooling-towel",
+    "neck-fan",
+    "sunscreen",
+    "cooling-spray",
+    "salt-candy",
+    "sports-drink",
+    "cooling-inner",
+    "portable-parasol",
+    "bucket-hat",
+  ],
+  rainy: [
+    "rain-poncho",
+    "waterproof-bag-cover",
+    "waterproof-phone-case",
+    "waterproof-shoes",
+    "dry-bag",
+    "quick-dry-towel",
+    "extra-socks",
+  ],
+  overnight: [
+    "sleeping-bag",
+    "air-mat",
+    "tent-light",
+    "travel-pillow",
+    "cooler-box",
+    "power-strip",
+    "solar-charger",
+  ],
+};
+
+export function getProductsByScenario(scenario: Scenario): Product[] {
+  const ids = SCENARIO_PRODUCT_IDS[scenario];
+  return ids.map((id) => getProductById(id)).filter((p): p is Product => Boolean(p));
 }

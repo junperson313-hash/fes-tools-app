@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { PACKING_ITEMS } from "@/data/packingItems";
 import { getProductById } from "@/data/products";
 import { PACKING_CATEGORY_LABELS, type PackingAnswers, type PackingCategory } from "@/data/types";
 import ProductLinks from "@/components/ProductLinks";
+import ResultCTA from "@/components/ResultCTA";
+import { useLocalStorageState } from "@/lib/useLocalStorageState";
 
 const CATEGORY_ORDER: PackingCategory[] = ["must", "heat", "rain", "phone", "hygiene", "nice", "stay"];
 
@@ -60,9 +62,15 @@ const QUESTIONS: {
 ];
 
 export default function PackingListClient() {
-  const [answers, setAnswers] = useState<Partial<PackingAnswers>>({});
-  const [statuses, setStatuses] = useState<Record<string, Status>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [answers, setAnswers] = useLocalStorageState<Partial<PackingAnswers>>(
+    "fes-packing-answers",
+    {}
+  );
+  const [statuses, setStatuses] = useLocalStorageState<Record<string, Status>>(
+    "fes-packing-statuses",
+    {}
+  );
+  const [submitted, setSubmitted] = useLocalStorageState<boolean>("fes-packing-submitted", false);
 
   const answeredCount = QUESTIONS.filter((q) => answers[q.key] !== undefined).length;
 
@@ -86,6 +94,10 @@ export default function PackingListClient() {
     }
     return map;
   }, [items]);
+
+  const needCount = items.filter((item) => statuses[item.id] === "need").length;
+  const suggestsRain = answers.weather === "rain" || answers.weather === "maybe_rain";
+  const suggestsOvernight = answers.stay === "overnight";
 
   function setAnswer(key: keyof PackingAnswers, value: string) {
     setAnswers((prev) => ({ ...prev, [key]: value }));
@@ -233,6 +245,21 @@ export default function PackingListClient() {
             </ul>
           </div>
         ))}
+      </div>
+
+      <div className="mt-8 flex flex-col gap-2">
+        {needCount > 0 && (
+          <p className="px-1 text-xs text-zinc-400">
+            「まだ持っていない」が{needCount}件あります。商品リンクから確認できます。
+          </p>
+        )}
+        {suggestsRain && (
+          <ResultCTA href="/items?scenario=rainy" label="☔ 雨予報の日向けグッズを見る" />
+        )}
+        {suggestsOvernight && (
+          <ResultCTA href="/items?scenario=overnight" label="🏕️ 泊まりフェス向けグッズを見る" />
+        )}
+        <ResultCTA href="/items" label="フェス用品一覧を見る" />
       </div>
     </div>
   );
