@@ -15,7 +15,7 @@ export const PACKING_ITEMS: PackingItem[] = [
   { id: "neck-fan", label: "ハンディ扇風機", category: "heat", productId: "neck-fan", show: (a) => a.venue === "outdoor" && a.duration === "full" },
   { id: "salt-candy", label: "塩分タブレット・飴", category: "heat", productId: "salt-candy", show: (a) => a.venue === "outdoor" },
   { id: "water-bottle", label: "飲料・水筒", category: "heat", productId: "sports-drink", show: () => true },
-  { id: "sunglasses", label: "サングラス", category: "heat", show: (a) => a.venue === "outdoor" },
+  { id: "sunglasses", label: "サングラス", category: "heat", productId: "sunglasses", show: (a) => a.venue === "outdoor" },
 
   // 雨対策
   { id: "rain-poncho", label: "レインポンチョ", category: "rain", productId: "rain-poncho", show: (a) => a.weather !== "sunny" },

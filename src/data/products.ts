@@ -17,12 +17,13 @@ export const PRODUCTS: Product[] = [
   product("salt-candy", "塩分タブレット・飴", "heat", "熱中症対策に塩分・ミネラル補給。"),
   product("cooling-inner", "接触冷感インナー", "heat", "着るだけで涼しい素材のインナーウェア。"),
   product("portable-parasol", "折りたたみ日傘・パラソル", "heat", "待機列や休憩時の日陰づくりに。"),
+  product("sunglasses", "サングラス", "heat", "強い日差しから目を守る。UVカット素材がおすすめ。"),
 
   // 雨対策
   product("rain-poncho", "レインポンチョ", "rain", "両手が空いて動きやすい。フェス定番の雨対策。"),
   product("waterproof-bag-cover", "防水バッグカバー", "rain", "リュックごとすっぽり覆って荷物を雨から守る。"),
   product("waterproof-phone-case", "スマホ防水ケース", "rain", "首から下げられるタイプなら雨でも操作しやすい。"),
-  product("waterproof-shoes", "防水シューズ・長靴", "rain", "ぬかるみ対策に。軽量タイプが歩きやすい。"),
+  product("waterproof-shoes", "防水シューズ・レインブーツ", "rain", "ぬかるみ対策に。ゴアテックスなど防水透湿素材のトレッキングシューズなら、山開催のフェスでも濡れずに快適に歩ける。"),
   product("dry-bag", "防水スタッフバッグ", "rain", "着替えや電子機器をまとめて濡れから守る。"),
   product("extra-socks", "予備の靴下", "rain", "濡れた足元をリセットできる。雨の日の必需品。"),
 
@@ -52,7 +53,7 @@ export const PRODUCTS: Product[] = [
   product("collapsible-cup", "折りたたみカップ", "drink", "給水スポットでの水分補給にかさばらず便利。"),
 
   // レジャー用品
-  product("folding-chair", "コンパクト折りたたみ椅子", "leisure", "待機時間や休憩時にあると疲れが違う。"),
+  product("folding-chair", "コンパクト折りたたみ椅子", "leisure", "待機時間や休憩時にあると疲れが違う。ヘリノックスなど軽量・コンパクトなアウトドアチェアがフェスでも定番。"),
   product("earplugs", "耳栓(ライブ用)", "leisure", "大音量から耳を守り、翌日の耳鳴りを防ぐ。"),
   product("led-light", "LEDライト・光るグッズ", "leisure", "夜間の視認性確保やペンライト代わりに。"),
   product("rain-boots-light", "軽量レインシューズ", "leisure", "本降りが予想される日の足元対策。"),
@@ -140,6 +141,8 @@ export const FEATURED_PRODUCT_IDS: string[] = [
   "folding-chair",
   "earplugs",
   "waist-pouch",
+  "sunglasses",
+  "waterproof-shoes",
 ];
 
 export function getFeaturedProducts(): Product[] {
