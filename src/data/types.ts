@@ -37,6 +37,8 @@ export interface Product {
   name: string;
   category: ProductCategory;
   description: string;
+  /** Amazon/楽天の検索キーワード。未指定の場合はnameを使う。ブランド名などを含めて検索精度を上げたい時に指定する。 */
+  searchKeyword?: string;
 }
 
 export type PackingCategory =

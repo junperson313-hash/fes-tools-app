@@ -4,9 +4,10 @@ function product(
   id: string,
   name: string,
   category: Product["category"],
-  description: string
+  description: string,
+  searchKeyword?: string
 ): Product {
-  return { id, name, category, description };
+  return { id, name, category, description, searchKeyword };
 }
 
 export const PRODUCTS: Product[] = [
@@ -53,12 +54,19 @@ export const PRODUCTS: Product[] = [
   product("collapsible-cup", "折りたたみカップ", "drink", "給水スポットでの水分補給にかさばらず便利。"),
 
   // レジャー用品
-  product("folding-chair", "コンパクト折りたたみ椅子", "leisure", "待機時間や休憩時にあると疲れが違う。ヘリノックスなど軽量・コンパクトなアウトドアチェアがフェスでも定番。"),
+  product(
+    "folding-chair",
+    "コンパクト折りたたみ椅子",
+    "leisure",
+    "待機時間や休憩時にあると疲れが違う。ヘリノックスなど軽量・コンパクトなアウトドアチェアがフェスでも定番。",
+    "ヘリノックス 折りたたみ椅子"
+  ),
   product("earplugs", "耳栓(ライブ用)", "leisure", "大音量から耳を守り、翌日の耳鳴りを防ぐ。"),
   product("led-light", "LEDライト・光るグッズ", "leisure", "夜間の視認性確保やペンライト代わりに。"),
   product("rain-boots-light", "軽量レインシューズ", "leisure", "本降りが予想される日の足元対策。"),
 
   // 宿泊・遠征
+  product("tent", "テント", "camp", "キャンプ泊フェスの拠点に。設営が簡単なワンタッチタイプが便利。"),
   product("sleeping-bag", "寝袋・シュラフ", "camp", "車中泊やキャンプ泊での防寒に。"),
   product("air-mat", "エアマット・キャンプマット", "camp", "地面の硬さや冷気を防いで睡眠の質を上げる。"),
   product("tent-light", "テント用ランタン", "camp", "夜間のテント内・周辺の明かり確保に。"),
@@ -114,6 +122,7 @@ export const SCENARIO_PRODUCT_IDS: Record<Scenario, string[]> = {
     "extra-socks",
   ],
   overnight: [
+    "tent",
     "sleeping-bag",
     "air-mat",
     "tent-light",

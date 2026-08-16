@@ -17,7 +17,7 @@ export default function FeaturedProducts() {
         {products.map((product) => (
           <a
             key={product.id}
-            href={buildAmazonSearchUrl(product.name)}
+            href={buildAmazonSearchUrl(product.searchKeyword ?? product.name)}
             target="_blank"
             rel="noopener noreferrer sponsored"
             className="flex w-32 shrink-0 flex-col rounded-xl border border-zinc-200 bg-white p-3 transition-colors hover:border-amber-300"
