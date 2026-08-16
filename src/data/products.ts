@@ -127,3 +127,23 @@ export function getProductsByScenario(scenario: Scenario): Product[] {
   const ids = SCENARIO_PRODUCT_IDS[scenario];
   return ids.map((id) => getProductById(id)).filter((p): p is Product => Boolean(p));
 }
+
+// トップページの「あると便利な持ち物」ピックアップで使用する定番アイテム。
+export const FEATURED_PRODUCT_IDS: string[] = [
+  "mobile-battery",
+  "rain-poncho",
+  "waterproof-phone-case",
+  "cap-hat",
+  "cooling-towel",
+  "sunscreen",
+  "neck-fan",
+  "folding-chair",
+  "earplugs",
+  "waist-pouch",
+];
+
+export function getFeaturedProducts(): Product[] {
+  return FEATURED_PRODUCT_IDS.map((id) => getProductById(id)).filter(
+    (p): p is Product => Boolean(p)
+  );
+}

@@ -10,6 +10,7 @@ import {
   type Scenario,
 } from "@/data/types";
 import ProductLinks from "@/components/ProductLinks";
+import AdDisclosure from "@/components/AdDisclosure";
 
 const CATEGORIES: ProductCategory[] = [
   "heat",
@@ -120,7 +121,9 @@ export default function ItemsClient() {
         </div>
       </div>
 
-      <ul className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <AdDisclosure className="mt-6" />
+
+      <ul className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {products.map((product) => (
           <li key={product.id} className="rounded-xl border border-zinc-200 bg-white p-3.5">
             <p className="text-xs font-semibold text-amber-600">

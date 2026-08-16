@@ -18,8 +18,8 @@ export default function Footer() {
         ))}
       </nav>
       <p className="mt-4">
-        当サイトではAmazon.co.jp・楽天市場等のアフィリエイト広告を利用する場合があります。
-        商品購入により当サイトが紹介料を得ることがあります。
+        Amazonのアソシエイトとして、当サイトは適格販売により収入を得ています。
+        また楽天市場等、他のアフィリエイトプログラムを利用する場合があります。
       </p>
       <p className="mt-1">© {new Date().getFullYear()} {SITE_NAME}</p>
     </footer>

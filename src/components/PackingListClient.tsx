@@ -6,6 +6,7 @@ import { getProductById } from "@/data/products";
 import { PACKING_CATEGORY_LABELS, type PackingAnswers, type PackingCategory } from "@/data/types";
 import ProductLinks from "@/components/ProductLinks";
 import ResultCTA from "@/components/ResultCTA";
+import AdDisclosure from "@/components/AdDisclosure";
 import { useLocalStorageState } from "@/lib/useLocalStorageState";
 
 const CATEGORY_ORDER: PackingCategory[] = ["must", "heat", "rain", "phone", "hygiene", "nice", "stay"];
@@ -185,6 +186,7 @@ export default function PackingListClient() {
       <p className="mt-1 text-sm text-zinc-500">
         「持っている」「まだ持っていない」をタップして管理できます。
       </p>
+      <AdDisclosure className="mt-3" />
 
       <div className="mt-6 flex flex-col gap-6">
         {CATEGORY_ORDER.filter((c) => grouped.has(c)).map((category) => (

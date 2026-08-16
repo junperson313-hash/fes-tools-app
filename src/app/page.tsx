@@ -1,4 +1,5 @@
 import ToolCard from "@/components/ToolCard";
+import FeaturedProducts from "@/components/FeaturedProducts";
 
 export default function Home() {
   return (
@@ -57,6 +58,8 @@ export default function Home() {
           フェス用品を見る →
         </a>
       </section>
+
+      <FeaturedProducts />
     </div>
   );
 }

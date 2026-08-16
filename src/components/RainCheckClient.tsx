@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { getProductById } from "@/data/products";
 import ProductLinks from "@/components/ProductLinks";
 import ResultCTA from "@/components/ResultCTA";
+import AdDisclosure from "@/components/AdDisclosure";
 import { useLocalStorageState } from "@/lib/useLocalStorageState";
 
 interface RainAnswers {
@@ -139,6 +140,7 @@ export default function RainCheckClient() {
 
       <div className="mt-6">
         <p className="mb-2 text-sm font-bold text-sky-700">おすすめの雨対策グッズ</p>
+        <AdDisclosure className="mb-2" />
         <ul className="flex flex-col gap-2">
           {items.map((product) => (
             <li key={product.id} className="rounded-xl border border-zinc-200 bg-white p-3">
